@@ -1,5 +1,5 @@
-target/
-*.class
-.idea/
-*.iml
+__pycache__/
+*.pyc
+.venv/
+.vscode/
 .env

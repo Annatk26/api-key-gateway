@@ -3,9 +3,9 @@ services:
     image: postgres:16
     container_name: apigateway-postgres
     environment:
-      POSTGRES_USER: apigateway
-      POSTGRES_PASSWORD: apigateway_dev_password
-      POSTGRES_DB: apigateway
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
