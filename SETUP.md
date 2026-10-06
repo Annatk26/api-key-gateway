@@ -60,3 +60,5 @@ Should reply `PONG`.
 Once this is confirmed working, we'll start the Spring Boot
 project and build the key generation and verification flow on
 top of this schema.
+
+<!-- Initial Tenant ID: 2a16f5e5-b108-4c5f-b5ba-348fdca9d187 -->
