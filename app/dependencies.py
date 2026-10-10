@@ -57,3 +57,29 @@ def get_current_key(
         raise HTTPException(status_code=401, detail="Invalid API key")
 
     return api_key
+
+def require_scope(required_scope: str):
+    """
+    AUTHORIZATION: a genuine key isn't automatically allowed to do
+    everything -- this checks it's specifically allowed to do
+    *this*.
+ 
+    This is a "dependency factory" -- a function that builds and
+    returns a dependency, configured with whatever scope the
+    endpoint needs. That's why it's used in routes as
+    Depends(require_scope("keys:read")) rather than
+    Depends(require_scope) directly -- we're calling it first,
+    with an argument, and FastAPI depends on the function it
+    returns.
+ 
+    401 means "I don't know who you are." 403 means "I know who
+    you are, and you're not allowed to do this" -- a meaningfully
+    different situation, so it gets a different status code.
+    """
+ 
+    def check_scope(current_key: ApiKey = Depends(get_current_key)) -> ApiKey:
+        if required_scope not in current_key.scopes:
+            raise HTTPException(status_code=403, detail="Insufficient permissions")
+        return current_key
+ 
+    return check_scope
