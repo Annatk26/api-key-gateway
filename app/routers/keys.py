@@ -8,7 +8,7 @@ from datetime import datetime
 from app.database import get_db
 from app.models import ApiKey, Tenant
 from app.security import generate_api_key
-from app.dependencies import get_current_key, require_scope
+from app.dependencies import get_rate_limited_key, require_scope
 
 router = APIRouter()
 
@@ -107,7 +107,7 @@ def revoke_key(
     db.commit()
 
 @router.get("/protected/ping")
-def protected_ping(current_key: ApiKey = Depends(get_current_key)):
+def protected_ping(current_key: ApiKey = Depends(get_rate_limited_key)):
     """
     A placeholder protected endpoint, only reachable with a valid,
     non-revoked key. This exists purely to prove the
